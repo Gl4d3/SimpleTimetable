@@ -1,309 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Campus Timetable - 3rd Trimester 2024</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f0f4f8;
-        }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            font-weight: 600;
-            margin-bottom: 30px;
-        }
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+      body {
+        font-family: "Poppins", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f0f4f8;
+      }
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 30px;
+      }
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 15px;
+        margin-bottom: 20px;
+      }
+      th,
+      td {
+        padding: 15px;
+        text-align: center;
+        background-color: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+      th {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        background-color: #3498db;
+        color: #ffffff;
+      }
+      .time-slot {
+        font-weight: 600;
+        background-color: #e74c3c;
+        color: #ffffff;
+      }
+      .editable {
+        min-height: 20px;
+        cursor: pointer;
+      }
+      .editable:hover {
+        opacity: 0.8;
+      }
+      .editable:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+      }
+      .legend {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        margin: 5px 10px;
+      }
+      .color-box {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        border: 1px solid #ddd;
+        cursor: pointer;
+      }
+      .class-1-4 {
+        background-color: #cdb3fc;
+      }
+      .class-2-3 {
+        background-color: #ffb7b2;
+      }
+      .class-2-4 {
+        background-color: #ffdac1;
+      }
+      .class-2-5 {
+        background-color: #e2f0cb;
+      }
+      .class-SF3 {
+        background-color: #b5ead7;
+      }
+      .class-clear {
+        background-color: #ffffff;
+      }
+      @media (max-width: 768px) {
         table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 15px;
-            margin-bottom: 20px;
+          font-size: 14px;
         }
-        th, td {
-            padding: 15px;
-            text-align: center;
-            background-color: #ffffff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+        th,
+        td {
+          padding: 10px;
         }
-        th {
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background-color: #3498db;
-            color: #ffffff;
-        }
-        .time-slot {
-            font-weight: 600;
-            background-color: #e74c3c;
-            color: #ffffff;
-        }
-        .editable {
-            min-height: 20px;
-            cursor: pointer;
-        }
-        .editable:hover {
-            opacity: 0.8;
-        }
-        .editable:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
-        }
-        .legend {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            margin: 5px 10px;
-        }
-        .color-box {
-            width: 20px;
-            height: 20px;
-            margin-right: 5px;
-            border: 1px solid #ddd;
-            cursor: pointer;
-        }
-        .class-1-4 { background-color: #cdb3fc; }
-        .class-2-3 { background-color: #FFB7B2; }
-        .class-2-4 { background-color: #FFDAC1; }
-        .class-2-5 { background-color: #E2F0CB; }
-        .class-SF3 { background-color: #B5EAD7; }
-        .class-clear { background-color: #ffffff; }
-        @media (max-width: 768px) {
-            table {
-                font-size: 14px;
-            }
-            th, td {
-                padding: 10px;
-            }
-        }
+      }
     </style>
-    <style>
-        /* Typography System */
-body {
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-h1 {
-  font-size: 24px;
-  line-height: 1.2;
-  margin-bottom: 20px;
-}
-
-.legend {
-  font-size: 14px;
-  line-height: 1.2;
-}
-
-/* Color Scheme */
-:root {
-  --primary-color: #3498db;
-  --secondary-color: #e74c3c;
-  --neutral-color: #f7f7f7;
-}
-
-table {
-  border-collapse: separate;
-  border-spacing: 0 15px;
-  margin-bottom: 20px;
-  border: 1px solid var(--neutral-color);
-}
-
-th, td {
-  padding: 15px;
-  text-align: center;
-  background-color: var(--neutral-color);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-th {
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  background-color: var(--primary-color);
-  color: #ffffff;
-}
-
-.time-slot {
-  font-weight: 600;
-  background-color: var(--secondary-color);
-  color: #ffffff;
-}
-
-.editable {
-  min-height: 20px;
-  cursor: pointer;
-  padding: 10px;
-  border: 1px solid var(--neutral-color);
-}
-
-.editable:hover {
-  opacity: 0.8;
-}
-
-.editable:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
-}
-
-.legend {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-  padding: 10px;
-  background-color: var(--neutral-color);
-  border: 1px solid var(--neutral-color);
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  margin: 5px 10px;
-}
-
-.color-box {
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
-  border: 1px solid var(--neutral-color);
-  cursor: pointer;
-}
-
-.color-box:hover {
-  opacity: 0.8;
-}
-
-.class-1-4 { background-color: #cdb3fc; }
-.class-2-3 { background-color: #FFB7B2; }
-.class-2-4 { background-color: #FFDAC1; }
-.class-2-5 { background-color: #E2F0CB; }
-.class-SF3 { background-color: #B5EAD7; }
-.class-clear { background-color: #ffffff; }
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  table {
-    font-size: 14px;
-  }
-  th, td {
-    padding: 10px;
-  }
-}
-    </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Campus Timetable - 3rd Trimester 2024</h1>
     <div class="legend">
-        <div class="legend-item"><div class="color-box class-2-3"></div>Class 2/3</div>
-        <div class="legend-item"><div class="color-box class-1-4"></div>Class 1/4</div>
-        <div class="legend-item"><div class="color-box class-2-4"></div>Class 2/4</div>
-        <div class="legend-item"><div class="color-box class-2-5"></div>Class 2/5</div>
-        <div class="legend-item"><div class="color-box class-SF3"></div>Class SF3</div>
-        <div class="legend-item"><div class="color-box class-clear"></div>Clear</div>
+      <div class="legend-item">
+        <div class="color-box class-2-3"></div>
+        Class 2/3
+      </div>
+      <div class="legend-item">
+        <div class="color-box class-1-4"></div>
+        Class 1/4
+      </div>
+      <div class="legend-item">
+        <div class="color-box class-2-4"></div>
+        Class 2/4
+      </div>
+      <div class="legend-item">
+        <div class="color-box class-2-5"></div>
+        Class 2/5
+      </div>
+      <div class="legend-item">
+        <div class="color-box class-SF3"></div>
+        Class SF3
+      </div>
+      <div class="legend-item">
+        <div class="color-box class-clear"></div>
+        Clear
+      </div>
     </div>
     <table id="timetable">
-        <tr>
-            <th>Time</th>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-        </tr>
-        <tr>
-            <td class="time-slot">8:00 AM</td>
-            <td contenteditable="true" class="editable">Introduction to Cognitive Science RCS 421</td>
-            <td contenteditable="true" class="editable"></td>
-            <td contenteditable="true" class="editable"></td>
-            <td contenteditable="true" class="editable">Statistical Methods RCS 404</td>
-            <td contenteditable="true" class="editable"></td>
-        </tr>
-        <tr>
-            <td class="time-slot">11:00 AM</td>
-            <td contenteditable="true" class="editable"></td>
-            <td contenteditable="true" class="editable"></td>
-            <td contenteditable="true" class="editable"></td>
-            <td contenteditable="true" class="editable"></td>
-            <td contenteditable="true" class="editable"></td>
-        </tr>
-        <tr>
-            <td class="time-slot">2:00 PM</td>
-            <td contenteditable="true" class="editable">Project 1 RCS 405</td>
-            <td contenteditable="true" class="editable"></td>
-            <td contenteditable="true" class="editable"></td>
-            <td contenteditable="true" class="editable"></td>
-            <td contenteditable="true" class="editable">Cryptography & Information Security RCS 402</td>
-        </tr>
-        <tr>
-            <td class="time-slot">5:00 PM</td>
-            <td contenteditable="true" class="editable">Knowledge Management RCS 406</td>
-            <td contenteditable="true" class="editable">Software QA & Testing RCS 442</td>
-            <td contenteditable="true" class="editable">Artificial Neural Networks RCS 425</td>
-            <td contenteditable="true" class="editable"></td>
-            <td contenteditable="true" class="editable"></td>
-        </tr>
+      <tr>
+        <th>Time</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+      </tr>
+      <tr>
+        <td class="time-slot">8:00 AM</td>
+        <td contenteditable="true" class="editable">
+        </td>
+        <td contenteditable="true" class="editable"></td>
+        <td contenteditable="true" class="editable"></td>
+        <td contenteditable="true" class="editable">
+        </td>
+        <td contenteditable="true" class="editable"></td>
+      </tr>
+      <tr>
+        <td class="time-slot">11:00 AM</td>
+        <td contenteditable="true" class="editable"></td>
+        <td contenteditable="true" class="editable"></td>
+        <td contenteditable="true" class="editable"></td>
+        <td contenteditable="true" class="editable"></td>
+        <td contenteditable="true" class="editable"></td>
+      </tr>
+      <tr>
+        <td class="time-slot">2:00 PM</td>
+        <td contenteditable="true" class="editable"></td>
+        <td contenteditable="true" class="editable"></td>
+        <td contenteditable="true" class="editable"></td>
+        <td contenteditable="true" class="editable"></td>
+        <td contenteditable="true" class="editable">
+        </td>
+      </tr>
+      <tr>
+        <td class="time-slot">5:00 PM</td>
+        <td contenteditable="true" class="editable">
+        </td>
+        <td contenteditable="true" class="editable">
+        </td>
+        <td contenteditable="true" class="editable">
+        </td>
+        <td contenteditable="true" class="editable"></td>
+        <td contenteditable="true" class="editable"></td>
+      </tr>
     </table>
-    <p><em>Click on any cell to edit your class schedule. Click on a color in the legend to select it, then click on a cell to apply the color.</em></p>
+    <p>
+      <em
+        >Click on any cell to edit your class schedule. Click on a color in the
+        legend to select it, then click on a cell to apply the color.</em
+      >
+    </p>
 
+    <p style="text-align: center;">
+      Made on Earth by a human -
+      <b> <a href="https://www.github.com/Gl4d3" style="color: #ffb7b2; font-family: Verdana, Geneva, Tahoma, sans-serif; text-decoration: none !important;">Imfunny</a> </b>
+    </p>
 
+    <script>
+      let selectedColor = "";
+      let timetableData = {};
 
-<script>
-    let selectedColor = '';
-    let timetableData = {};
-  
-    // Load saved data from localStorage
-    if (localStorage.getItem('timetableData')) {
-      timetableData = JSON.parse(localStorage.getItem('timetableData'));
-    }
-  
-    // Initialize cells with saved data
-    document.querySelectorAll('.editable').forEach(cell => {
-      const cellId = cell.parentNode.rowIndex + '-' + cell.cellIndex;
-      if (timetableData[cellId]) {
-        cell.textContent = timetableData[cellId].text;
-        cell.classList.add(timetableData[cellId].color);
+      // Load saved data from localStorage
+      if (localStorage.getItem("timetableData")) {
+        timetableData = JSON.parse(localStorage.getItem("timetableData"));
       }
-    });
-  
-    document.querySelectorAll('.color-box').forEach(box => {
-      box.addEventListener('click', function() {
-        selectedColor = this.className.split(' ')[1];
-        document.querySelectorAll('.color-box').forEach(b => b.style.border = '1px solid #ddd');
-        this.style.border = '3px solid #333';
-      });
-    });
-  
-    document.querySelectorAll('.editable').forEach(cell => {
-      cell.addEventListener('click', function() {
-        if (selectedColor) {
-          this.classList.forEach(cls => {
-            if (cls.startsWith('class-')) {
-              this.classList.remove(cls);
-            }
-          });
-          this.classList.add(selectedColor);
-          const cellId = cell.parentNode.rowIndex + '-' + cell.cellIndex;
-          timetableData[cellId] = { text: this.textContent, color: selectedColor };
-          localStorage.setItem('timetableData', JSON.stringify(timetableData));
+
+      // Initialize cells with saved data
+      document.querySelectorAll(".editable").forEach((cell) => {
+        const cellId = cell.parentNode.rowIndex + "-" + cell.cellIndex;
+        if (timetableData[cellId]) {
+          cell.textContent = timetableData[cellId].text;
+          cell.classList.add(timetableData[cellId].color);
         }
       });
-    });
-  </script>
-</body>
+
+      document.querySelectorAll(".color-box").forEach((box) => {
+        box.addEventListener("click", function () {
+          selectedColor = this.className.split(" ")[1];
+          document
+            .querySelectorAll(".color-box")
+            .forEach((b) => (b.style.border = "1px solid #ddd"));
+          this.style.border = "3px solid #333";
+        });
+      });
+
+      document.querySelectorAll(".editable").forEach((cell) => {
+        cell.addEventListener("click", function () {
+          if (selectedColor) {
+            this.classList.forEach((cls) => {
+              if (cls.startsWith("class-")) {
+                this.classList.remove(cls);
+              }
+            });
+            this.classList.add(selectedColor);
+            const cellId = cell.parentNode.rowIndex + "-" + cell.cellIndex;
+            timetableData[cellId] = {
+              text: this.textContent,
+              color: selectedColor,
+            };
+            localStorage.setItem(
+              "timetableData",
+              JSON.stringify(timetableData)
+            );
+          }
+        });
+      });
+    </script>
+  </body>
 </html>
